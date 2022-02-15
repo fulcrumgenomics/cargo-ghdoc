@@ -23,11 +23,11 @@ fn main() -> DynResult<()> {
     assert_eq!(args.len(), 1);
     let raw_url = args[0].clone();
 
-    let caps = re.captures(&raw_url).expect("Failed to parse URL.");
+    let caps = re.captures(&raw_url).expect("Failed to parse URL. Expected the pattern `https://github.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+/pull/\\d+`");
 
     let (repo, number) = match (caps.name("repo"), caps.name("number")) {
         (Some(repo), Some(number)) => (repo.as_str().to_owned(), number.as_str().to_owned()),
-        _ => panic!("Can't parse url"),
+        _ => panic!("Failed to parse the `username/repo` or the PR number from the provided URL"),
     };
 
     let dir = temp_dir();
@@ -41,26 +41,27 @@ fn main() -> DynResult<()> {
             repo_path.as_os_str().to_str().unwrap(),
         ])
         .output()
-        .expect("FAIL to clone");
+        .expect("Error cloning repo");
     eprintln!("Cloned {} to {:?}", raw_url, repo_path);
 
     Command::new("git")
         .current_dir(&repo_path)
         .args(["fetch", "origin", &format!("pull/{}/head:GHDOC", number)])
         .output()
-        .expect("FAIL to checkout PR");
+        .expect("Error fetching PR");
     Command::new("git")
         .current_dir(&repo_path)
         .args(["checkout", "GHDOC"])
         .output()
-        .expect("FAIL to checkout PR");
+        .expect("Error checking out PR branch");
     eprintln!("Checked out PR {}", number);
 
+    // TODO - bubble up the stderr from this command
     Command::new("cargo")
         .current_dir(&repo_path)
         .args(["doc", "--open"])
         .output()
-        .expect("FAIL to generate docs");
+        .expect("Error generating docs - this may be because the PR doesn't compile or there is an error with the docs.");
     eprintln!("Opened cargo docs");
 
     Ok(())
