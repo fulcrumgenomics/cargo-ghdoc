@@ -2,8 +2,8 @@
 name = "cargo-ghdoc"
 version = "0.2.1-alpha.0"
 edition = "2021"
-authors = ["Seth Stadick <sstadick@gmail.com>"]
-license = "Unlicense/MIT"
+authors = ["Seth Stadick <seth@fulcrumgenomics.com>"]
+license = "MIT"
 repository = "https://github.com/sstadick/cargo-ghdoc"
 description = "View Rust docs for open PRs"
 documentation = "https://docs.rs/cargo-ghdoc"
