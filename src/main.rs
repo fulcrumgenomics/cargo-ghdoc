@@ -23,9 +23,7 @@ fn main() -> DynResult<()> {
     assert_eq!(args.len(), 1);
     let raw_url = args[0].clone();
 
-    let caps = re.captures(&raw_url).unwrap();
-    eprintln!("{:?}", caps.name("repo"));
-    eprintln!("{:?}", caps.name("number"));
+    let caps = re.captures(&raw_url).expect("Failed to parse URL.");
 
     let (repo, number) = match (caps.name("repo"), caps.name("number")) {
         (Some(repo), Some(number)) => (repo.as_str().to_owned(), number.as_str().to_owned()),
@@ -56,7 +54,7 @@ fn main() -> DynResult<()> {
         .args(["checkout", "GHDOC"])
         .output()
         .expect("FAIL to checkout PR");
-    eprintln!("Checkout out PR {}", number);
+    eprintln!("Checked out PR {}", number);
 
     Command::new("cargo")
         .current_dir(&repo_path)
