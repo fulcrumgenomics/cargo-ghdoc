@@ -14,3 +14,6 @@ cargo install --path .
 ```bash
 cargo ghdoc https://github.com/sstadick/cargo-ghdoc/pr/1
 ```
+
+
+This is just a test
