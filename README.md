@@ -8,7 +8,7 @@
 
 Launch cargo docs from a github PR.
 
-This toll is intended as an aid when reviewing PRs in Rust projects.
+This tool is intended as an aid when reviewing PRs in Rust projects.
 It's often hard to tell what the docs will look like before rendering.
 It's also often hard to gain context for a PR without seeing the docs.
 This tool solves both of those problems with a single command.
@@ -36,3 +36,17 @@ Proceed to nit pick.
 This tool is just running `git` and `cargo` shell commands under the hood.
 As such both binaries should be findable in your path.
 Additionally this tool requires that you have set up SSH credentials and that they are valid for the repo in question.
+
+Equivalent shell commands:
+
+```bash
+mkdir <tempdir>
+cd <tempdir>
+git clone <repo>
+cd <repo>
+git fetch origin pull/<PR number>/head:GHDOC
+git checkout GHDOC
+cargo doc --open
+```
+
+Since this tool is piggybacking off of `git`, you must have sufficient permissions to run those command.
