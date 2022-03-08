@@ -25,6 +25,10 @@ struct Opts {
     /// This can either by a pull request url, i.e. https://github.com/fulcrumgenomics/cargo-ghdoc/pull/1
     /// Or a plain path to a repo, i.e. https://github.com/fulcrumgenomics/cargo-ghdoc
     url: String,
+
+    /// Flag to turn off doc generation of private items
+    #[clap(long, short = 'd')]
+    disallow_private_items: bool,
 }
 
 fn main() -> DynResult<()> {
@@ -37,7 +41,7 @@ fn main() -> DynResult<()> {
         (                                       # Optional match portion if this is a pull request
             /pull/                              # Obligatory /pull/ to designate a pull request
             (?P<number>\d+)                     # The pull request number
-        )?                                 
+        )?
     ",
     )?;
 
@@ -88,7 +92,7 @@ fn main() -> DynResult<()> {
     info!("Generating docs:");
     Command::new("cargo")
         .current_dir(&repo_path)
-        .args(["doc", "--open"])
+        .args(["doc", "--open", if opts.disallow_private_items { "" } else { "--document-private-items" }])
         .stderr(Stdio::inherit())
         .stdout(Stdio::inherit())
         .output()
