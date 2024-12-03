@@ -29,6 +29,12 @@ struct Opts {
     /// Flag to turn off doc generation of private items
     #[clap(long, short = 'd')]
     disallow_private_items: bool,
+
+    /// If you use an ssh alias in order to use specific keys, you can specify the alias used for `github.com` here.
+    ///
+    /// See https://wiki.debian.org/SshAliases
+    #[clap(long, short)]
+    github_host_alias: Option<String>,
 }
 
 fn main() -> DynResult<()> {
@@ -62,7 +68,11 @@ fn main() -> DynResult<()> {
     Command::new("git")
         .args([
             "clone",
-            &format!("git@github.com:{}", &repo),
+            &format!(
+                "git@{}:{}",
+                opts.github_host_alias.unwrap_or_else(|| String::from("github.com")),
+                &repo
+            ),
             repo_path.as_os_str().to_str().unwrap(),
         ])
         .stderr(Stdio::inherit())
