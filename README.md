@@ -7,6 +7,15 @@
 
 Launch cargo docs from a github PR.
 
+<p>
+<a href float="left"="https://fulcrumgenomics.com"><img src=".github/logos/fulcrumgenomics.svg" alt="Fulcrum Genomics" height="100"/></a>
+</p>
+
+[Visit us at Fulcrum Genomics](www.fulcrumgenomics.com) to learn more about how we can power your Bioinformatics with cargo-ghdoc and beyond.
+
+<a href="mailto:contact@fulcrumgenomics.com?subject=[GitHub inquiry]"><img src="https://img.shields.io/badge/Email_us-brightgreen.svg?&style=for-the-badge&logo=gmail&logoColor=white"/></a>
+<a href="https://www.fulcrumgenomics.com"><img src="https://img.shields.io/badge/Visit_Us-blue.svg?&style=for-the-badge&logo=wordpress&logoColor=white"/></a>
+
 This tool is intended as an aid when reviewing PRs in Rust projects.
 It's often hard to tell what the docs will look like before rendering.
 It's also often hard to gain context for a PR without seeing the docs.
